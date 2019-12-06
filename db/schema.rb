@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_06_163347) do
+ActiveRecord::Schema.define(version: 2019_12_06_163537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answer_choices", force: :cascade do |t|
+    t.text "answer_text", null: false
+    t.integer "question_id"
+    t.index ["question_id"], name: "index_answer_choices_on_question_id"
+  end
 
   create_table "polls", force: :cascade do |t|
     t.text "title", null: false
