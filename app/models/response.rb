@@ -1,6 +1,6 @@
 class Response < ApplicationRecord
   validates :user_id, :answer_choice_id, presence: true
-  validate :respondent_has_not_answered
+  validate :respondent_has_not_answered, :respondent_is_not_poll_author
   belongs_to(
     :respondent,
     class_name: 'User',
@@ -37,4 +37,11 @@ class Response < ApplicationRecord
       errors[:user_id] << "has already responded to this poll."
     end
   end
+
+  def respondent_is_not_poll_author
+    if respondent_is_author?
+      errors[:user_id] << "is the author of the poll and may not answer their own question."
+    end
+  end
+
 end
