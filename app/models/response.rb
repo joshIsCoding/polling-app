@@ -19,4 +19,8 @@ class Response < ApplicationRecord
   def sibling_responses
     self.question.responses.where.not(id: self.id )
   end
+
+  def respondent_already_answered?
+    self.sibling_responses.where(user_id: self.user_id).count >= 1
+  end
 end
