@@ -16,13 +16,18 @@ class Response < ApplicationRecord
   )
 
   has_one :question, through: :answer_choice, source: :question
-  
+  has_one :poll, through: :question, source: :poll
+
   def sibling_responses
     self.question.responses.where.not(id: self.id )
   end
 
   def respondent_already_answered?
     self.sibling_responses.where(user_id: self.user_id).count >= 1
+  end
+
+  def respondent_is_author?
+    self.user_id == self.poll.author_id
   end
 
   private 
